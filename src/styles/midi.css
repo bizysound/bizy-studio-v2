@@ -9,8 +9,21 @@
   --acid-border: 2.5px solid #000000;
   --hard-shadow: 5px 5px 0px #000000;
 }
-
-
+body.midi-mode {
+  background-image: url("/img/bg1.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: transparent;
+}
+.midi-page .site-footer {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  color: rgba(0, 0, 0, 0.4);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
 /* 1. 最外层的卡片容器必须是 relative，充当 absolute 的定位参考系 */
 .visualizer-card {
   position: relative !important;
@@ -249,7 +262,7 @@ body.recording-mode .panel {
 /* ===== 底部播放器：收拢悬浮硬件胶囊 ===== */
 .player-bar {
   position: fixed;
-  bottom: 24px;
+  bottom: 50px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 90;

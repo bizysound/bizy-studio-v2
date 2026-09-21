@@ -71,7 +71,7 @@ export function initHome() {
         </div>
       </section>
 
-      <footer class="site-footer white-bg">
+      <footer class="site-footer">
         BIZY SOUND / MUSIC PRODUCER & WEB DEVELOPER. © 2026
       </footer>
     </main>
