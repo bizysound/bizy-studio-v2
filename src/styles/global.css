@@ -5,7 +5,7 @@
 :root {
   --bg: #e6e6e6;
   --dark: #0a0a0a;
-  --accent: #ccff00; /* 统一采用酸性亮黄 */
+  --accent: #ccff00;
   --border: rgba(0, 0, 0, 0.1);
 }
 
@@ -13,18 +13,14 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  cursor: default;
 }
 
 body {
   margin: 0;
-  background-color: var(--bg);
-  background-image: url("/img/bg1.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-color: #fff;
   min-height: 100vh;
   font-family: system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
 }
 
 /* 背景 Canvas */
@@ -36,78 +32,263 @@ body {
   opacity: 0.4;
 }
 
-/* ===== Hero Section ===== */
+/* ===== 首屏 Hero（工作室照片背景） ===== */
 .hero {
-  height: 90vh;
+  position: relative;
+  min-height: 100vh;
+  width: 100vw;
   padding: 15vh 5% 4vh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
 }
 
-.hero-title h1 {
-  font-size: 10vw;
-  letter-spacing: -0.05em;
+.hero-bg {
+  background-color: var(--bg);
+  background-image: url("/img/bg1.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-title.align-left {
+  width: 100%;
+  max-width: 100vw;
+  padding-left: 5vw;
+  text-align: left !important;
+  box-sizing: border-box;
+}
+
+.main-brand-title {
+  font-size: min(9vw, 110px) !important;
+  letter-spacing: -0.04em;
   text-transform: uppercase;
   font-weight: 900;
+  margin-bottom: 0px;
+  transform: translateY(-20px);
 }
 
-.hero-title h1.accent {
-  font-size: 12vw;
-  padding-left: 12vw;
+/* 琴键字母排版 */
+.hero-text {
+  display: flex !important;
+  justify-content: flex-start !important;
+  flex-wrap: nowrap;
+  font-size: min(10vw, 120px) !important;
+  letter-spacing: clamp(1px, 0.5vw, 6px) !important;
+  cursor: pointer;
+  margin-top: -1vw;
+}
+
+.note-letter {
+  display: inline-block;
   color: transparent;
-  -webkit-text-stroke: 1.5px var(--dark);
-  transform: translateY(6vh);
+  -webkit-text-stroke: 2px #000;
+  padding: 0 2px;
+  transition: color 0.2s, text-shadow 0.2s;
+}
+
+.note-letter.active {
+  color: #000;
+  text-shadow: 0 0 25px rgba(204, 255, 0, 0.9);
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #000;
+  opacity: 0.6;
+  white-space: nowrap;
+}
+
+/* ===== 重构：右下角极简低调黑胶控制按钮 ===== */
+.top-right-vinyl {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 9999;
+}
+
+.vinyl-icon-btn {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #000;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%; /* 改成圆圈更加精致 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  opacity: 0.7; /* 降低默认存在感 */
+}
+
+.vinyl-icon-btn .icon {
+  font-size: 15px;
+  line-height: 1;
+  filter: grayscale(100%);
+  transition: filter 0.3s;
+}
+
+.vinyl-icon-btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+  border-color: #000;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.vinyl-icon-btn:hover .icon {
+  filter: grayscale(0%);
+}
+
+/* 开启黑胶状态：低调的极简点亮（酸性黄微光） */
+.vinyl-icon-btn.playing {
+  opacity: 1;
+  background: #000;
+  color: #ccff00;
+  border-color: #000;
+  box-shadow: 0 0 15px rgba(204, 255, 0, 0.4);
+}
+
+.vinyl-icon-btn.playing .icon {
+  filter: grayscale(0%);
+}
+
+/* ===== 下滑内容区：纯白背景覆盖 ===== */
+.content-section.white-bg {
+  background-color: #ffffff;
+  position: relative;
+  z-index: 2;
+  width: 100vw;
+  padding: 80px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section-title {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: #666;
+  margin-bottom: 24px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 60px;
+}
+
+.glass-card {
+  background: #f8f8f8;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.glass-card:hover {
+  transform: translateY(-6px);
+  border-color: #000;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.card-tag {
+  display: inline-block;
+  background: #000;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  margin-bottom: 12px;
+  border-radius: 2px;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: #111;
+}
+
+.card-desc {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.5;
 }
 
 /* ===== Footer ===== */
-.site-footer {
+.site-footer.white-bg {
+  background-color: #ffffff;
   position: relative;
+  z-index: 2;
   width: 100%;
-  padding: 12px 5%; /* 缩小上下边距，紧贴底部 */
-  clear: both;
-  font-size: 11px; /* 略微缩小字号 */
-  font-weight: 500; /* 字重改轻，减轻视觉存在感 */
-  color: rgba(0, 0, 0, 0.4); /* 使用半透明灰，使其融入背景 */
-  letter-spacing: 0.5px;
-  /* 取消了 text-transform: uppercase; 避免大写太张扬 */
-}
-
-input {
-  cursor: text;
+  padding: 24px 5%;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.4);
+  letter-spacing: 1px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 /* ===== Mobile Responsive ===== */
 @media (max-width: 768px) {
-  body {
+  .hero-bg {
     background-position: center center;
-    background-size: auto 100%;
+    background-size: cover;
   }
 
-  .hero {
-    height: auto;
-    min-height: 90vh;
-    padding: 30vh 6% 10vh;
+  .hero-title.align-left {
+    padding-left: 6vw;
   }
 
-  .hero-title h1 {
-    font-size: 13vw;
-    letter-spacing: -0.06em;
+  .main-brand-title {
+    font-size: 12vw !important;
+    transform: translateY(-30px);
   }
 
-  .hero-title h1.accent {
-    font-size: 14vw;
-    padding-left: 0;
-    margin-top: 90px;
-    transform: none;
+  .hero-text {
+    font-size: 11vw !important;
+    letter-spacing: 0px !important;
   }
 
-.site-footer {
-    padding: 12px 6%;
-    font-size: 10px;
-    color: rgba(0, 0, 0, 0.35); /* 手机端背景较杂时保持低调 */
+  .note-letter {
+    -webkit-text-stroke: 1.2px #000;
+    padding: 0 1px;
   }
 
-  #canvas-container {
-    opacity: 0.25;
+  /* 移动端移到左下角，完全避开 MENU 与下滑提示 */
+  .top-right-vinyl {
+    bottom: 20px;
+    left: 20px;
+    right: auto;
+  }
+
+  .vinyl-icon-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .vinyl-icon-btn .icon {
+    font-size: 14px;
   }
 }
